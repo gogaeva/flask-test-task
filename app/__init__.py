@@ -18,11 +18,11 @@ def create_app(config_class=Config):
         db_client.admin.command('ping')
     except:
         app.logger.fatal('Mongo server is not available')
-        exit(1)
+        # exit(1)
     db = LimitsRepository(db_client)
 
-    mc = MemoryConsumer()
-    threading.Thread(target=mc.run, daemon=True).start()
+    # mc = MemoryConsumer()
+    # threading.Thread(target=mc.run, daemon=True).start()
 
     @app.route('/limits', methods=['GET'])
     def getLimit():
