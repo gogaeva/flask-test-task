@@ -13,15 +13,24 @@ services:
             - 27017:27017
         volumes:
             - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+        networks:
+            - ftt-network
 
     flask_app:
         build:
             context: .
-        image: flask_app_dev
-        container_name: flask_app_dev
+        container_name: flask_app
         ports: 
             - 8080:8080
         restart: always
+        environment:
+            MONGODB_URI: mongodb://mongodb.ftt-network:27017 
+        networks:
+            - ftt-network
         depends_on: 
             - mongodb
-        # network_mode: host
+
+networks:
+    ftt-network:
+        name: ftt-network
+        driver: bridge
